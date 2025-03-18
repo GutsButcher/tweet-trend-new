@@ -1,4 +1,6 @@
 def registry = 'https://trialbn90ue.jfrog.io'
+def imageName = 'trialbn90ue.jfrog.io/gwynbliedd-docker-local/ttrend'
+def version   = '2.1.2'
 
 pipeline {
     agent {
@@ -51,6 +53,27 @@ pipeline {
                     echo '<--------------- Jar Publish Ended --------------->'
                 }
             }
+        }
+        stage(" Docker Build ") {
+          steps {
+            script {
+               echo '<--------------- Docker Build Started --------------->'
+               app = docker.build(imageName+":"+version)
+               echo '<--------------- Docker Build Ends --------------->'
+            }
+          }
+        }
+
+        stage (" Docker Publish "){
+          steps {
+            script {
+             echo '<--------------- Docker Publish Started --------------->'
+             docker.withRegistry(registry, 'jfrog-token'){
+             app.push()
+             }
+             echo '<--------------- Docker Publish Ended --------------->'
+            }
+          }
         }
     }
 }
