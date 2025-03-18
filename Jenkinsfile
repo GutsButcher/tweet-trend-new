@@ -22,15 +22,5 @@ pipeline {
         echo "------------UNTI TEST FINISHED-----------"
       }
     }
-        stage("sonar-scanner"){
-          environment{
-            scannerHome = tool 'sonar-scanner'
-          }
-          steps{
-            withSonarQubeEnv('sonarqube-server'){
-              sh "${scannerHome}/bin/sonar-scanner -Dsonar.javascript.exclusions=**"
-            }
-          }
-        }
-    }
+  }
 }
