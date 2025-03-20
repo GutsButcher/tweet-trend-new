@@ -78,9 +78,11 @@ pipeline {
         stage ("Deploy"){
           steps {
             script {
-              sh 'cd kubernetes && ./deploy.sh'
+              echo "--------------- HELM DEPLOY STARTS ------------"
+              sh 'helm install ttrend ttrend-0.1.0.tgz'
+              echo "--------------- HELM DEPLOY FINISHED ------------"
         }
       }
-    } 
+    }
     }
 }
